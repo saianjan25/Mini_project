@@ -1,11 +1,12 @@
-import Post from "../Post";
-
-export default function IndexPage(){
-    return(
-        <>
-            <Post />
-            <Post />
-            <Post />
-        </>
-    );
+import Post from "../Post"
+const Indexpage = () => {
+  return (
+    <div>
+        <Post/>
+        <Post/>
+        <Post/>
+    </div>
+  )
 }
+
+export default Indexpage

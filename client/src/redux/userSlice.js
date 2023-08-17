@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../api/axios";
-import { Navigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 //user login reducer
@@ -8,7 +7,7 @@ export const userLogin = createAsyncThunk(
   "/api/auth/login",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/user/login", payload, {
+      const response = await axios.post("/api/auth/login", payload, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -22,20 +21,20 @@ export const userLogin = createAsyncThunk(
     }
   }
 );
+const token = localStorage.getItem("token")
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    token: null,
+    token: token,
     isLoading: false,
     posts: [],
     post: {},
     user: {},
   },
   reducers: {
-    handleLogout: (state) => {
+    logoutUser: (state) => {
       state.token = null;
       localStorage.removeItem("token");
-      <Navigate to={"/login"} />;
     },
   },
   extraReducers: (builder) => {
@@ -47,6 +46,8 @@ const userSlice = createSlice({
       toast.success("Login success");
       state.token = payload.token;
       state.user = payload.user;
+      localStorage.setItem("token",payload.token)
+      console.log(payload)
     });
     builder.addCase(userLogin.rejected, (state) => {
       state.isLoading = false;
@@ -56,3 +57,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+export const {logoutUser} = userSlice.actions;

@@ -1,19 +1,21 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
+import RequireAuth from "./features/RequireAuth";
 import IndexPage from "./Pages/Indexpage";
-import LoginPage from "./Pages/Loginpage";
+import Login from "./components/Login";
 import RegisterPage from "./Pages/RegisterPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path={"/login"} element={<Login />} />
+        <Route path={"/register"} element={<RegisterPage />} />
+        <Route path="/home" element={<RequireAuth />}>
           <Route index element={<IndexPage />} />
-          <Route path={"/login"} element={<LoginPage />} />
-          <Route path={"/register"} element={<RegisterPage />} />
         </Route>
       </Routes>
+      <Toaster position="top-right" />
     </BrowserRouter>
   );
 }
